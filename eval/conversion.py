@@ -20,8 +20,8 @@ def main():
     except:
         pass
 
-    if action == "sat2lcg":
-        for filename in os.listdir(source_path):
+    if action == "sat2lcg":  # default
+        for filename in os.listdir(source_path):  # G2SAT/dataset/test_formulas/
             assert(filename[-4:] == ".cnf")
             lcg_filename = filename.split(".")[0] + "_lcg_edge_list"
             LCG = sat_to_LCG(source_path + "/" + filename)
