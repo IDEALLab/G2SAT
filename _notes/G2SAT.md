@@ -73,6 +73,6 @@ p cnf 3 2
 ```
 
 To convert it into a graph, first think about the nodes:
-- positive literals: 1, 2, 3.
-- negative literals: `abs(-1) + n_var =` 4, 5, 6. 
+- positive literals: `x1` -> 1, 2, 3.
+- negative literals: `¬x1` -> `abs(-1) + n_var =` 4, 5, 6. 
 - clauses: `2 * n_var + 1` = 7, 8, 9.
