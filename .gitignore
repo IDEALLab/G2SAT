@@ -10,3 +10,4 @@ fig/
 
 # added by liang
 __pycache__/
+.vscode/
