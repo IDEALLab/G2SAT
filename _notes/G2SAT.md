@@ -5,6 +5,9 @@
   - [1.2 The Boolean Satisfiability Problem (SAT)](#12-the-boolean-satisfiability-problem-sat)
   - [1.3 Graph representation: CNF to LCG (Literal-Clause Graph)](#13-graph-representation-cnf-to-lcg-literal-clause-graph)
 - [2. Store a CNF problem using the DMACS .cnf format](#2-store-a-cnf-problem-using-the-dmacs-cnf-format)
+- [3. Parse .cnf files into networkx graph objects](#3-parse-cnf-files-into-networkx-graph-objects)
+  - [3.1 Preprosess](#31-preprosess)
+  - [3.2 To nx graph](#32-to-nx-graph)
 
 # 1. Basics of SAT ([Wiki](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem))
 
@@ -72,7 +75,22 @@ p cnf 3 2
 -1 0
 ```
 
+# 3. Parse .cnf files into networkx graph objects
+
+## 3.1 Preprosess 
+See [eval/conversion.py](../eval/conversion.py). 
+
 To convert it into a graph, first think about the nodes:
 - positive literals: `x1` -> 1, 2, 3.
 - negative literals: `¬x1` -> `abs(-1) + n_var =` 4, 5, 6. 
 - clauses: `2 * n_var + 1` = 7, 8, 9.
+
+Once the correspondence is understood, the authors first **create** a graph and add the edges using `Graph.add_edge()`. Then store the graph by `nx.write_edgelist()`.
+
+## 3.2 To nx graph
+- An additional [dataset/lcg_stats.csv](../dataset/lcg_stats.csv), which stores `n_var` and `n_c` for each problem, is needed for partite split.
+
+- [data.py](../data.py):
+  1. relabel nodes from 1-based to 0-based.
+  2. add links between v and -v
+  3. partite split
