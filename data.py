@@ -31,7 +31,7 @@ def load_graphs_lcg(data_dir, stats_dir):
         if 'lcg_edge' in filename:
             with open(data_dir + filename, 'rb') as fh:
                 graph = nx.read_edgelist(fh)
-            filename = filename[:-14] # remove postfix
+            filename = filename[:-14] # remove postfix XD: "_lcg_edge_list"
             # find partite split
             for stat in stats:
                 if filename in stat[0]:
@@ -42,7 +42,7 @@ def load_graphs_lcg(data_dir, stats_dir):
                         print('Stats not match!')
                         print(stat[0], filename, graph.number_of_nodes(), graph.number_of_edges(), n_var, n_clause)
                     else:
-                        # relabel nodes
+                        # relabel nodes XD: from 1-based to 0-based
                         keys = [str(i + 1) for i in range(n)]
                         vals = range(n)
                         mapping = dict(zip(keys, vals))
