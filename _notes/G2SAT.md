@@ -8,6 +8,7 @@
 - [3. Parse .cnf files into networkx graph objects](#3-parse-cnf-files-into-networkx-graph-objects)
   - [3.1 Preprosess](#31-preprosess)
   - [3.2 To nx graph](#32-to-nx-graph)
+- [4. Circuits to bipartite graphs](#4-circuits-to-bipartite-graphs)
 
 # 1. Basics of SAT ([Wiki](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem))
 
@@ -92,5 +93,11 @@ Once the correspondence is understood, the authors first **create** a graph and 
 
 - [data.py](../data.py):
   1. relabel nodes from 1-based to 0-based.
-  2. add links between v and -v
-  3. partite split
+  2. add links between `v` and `-v`.
+  3. partite split.
+
+
+# 4. Circuits to bipartite graphs
+
+- `element` <=> literal, `port` <=> clause.
+- Different from literals, circuit elements are not pairwise. So compared to links between `v` and `-v`, I will not add links between elements.  
