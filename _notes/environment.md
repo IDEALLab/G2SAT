@@ -34,6 +34,9 @@
     pip install torch-spline-conv -f https://pytorch-geometric.com/whl/torch-1.7.1+cu101.html
     pip install torch-geometric
    ```
+5. `pip install networkx==2.3`
+
+6. `pip install tensorboardX`
 
 
    
