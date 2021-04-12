@@ -86,6 +86,8 @@ To convert it into a graph, first think about the nodes:
 - negative literals: `¬x1` -> `abs(-1) + n_var =` 4, 5, 6. 
 - clauses: `2 * n_var + 1` = 7, 8, 9.
 
+Note that these nodes are 1-based.
+
 Once the correspondence is understood, the authors first **create** a graph and add the edges using `Graph.add_edge()`. Then store the graph by `nx.write_edgelist()`.
 
 ## 3.2 To nx graph
@@ -101,3 +103,4 @@ Once the correspondence is understood, the authors first **create** a graph and 
 
 - `element` <=> literal, `port` <=> clause.
 - Different from literals, circuit elements are not pairwise. So compared to links between `v` and `-v`, I will not add links between elements.  
+- When the netlist files are read and converted into bipartite graphs in *parser.py*, the nodes are already 0-based. As a result, there is no need to relabel nodes in [data.py](../data.py) 

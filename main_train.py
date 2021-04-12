@@ -28,7 +28,9 @@ else:
 device = torch.device('cuda:'+str(args.cuda) if args.gpu else 'cpu')
 
 ### load data
-graphs_train, nodes_par1s_train, nodes_par2s_train = load_graphs_lcg(data_dir='dataset/train_set/', stats_dir='dataset/')
+# graphs_train, nodes_par1s_train, nodes_par2s_train = load_graphs_lcg(data_dir='dataset/train_set/', stats_dir='dataset/')
+graphs_train, nodes_par1s_train, nodes_par2s_train = load_graphs_lcg_LENS(data_dir='dataset_LENS/train_set/', stats_dir='dataset_LENS/')
+print('data loaded with {} graphs.'.format(len(graphs_train)))
 # draw_graph_list(graphs_train, row=4, col=4, fname='fig/train')
 node_nums = [graph.number_of_nodes() for graph in graphs_train]
 edge_nums = [graph.number_of_edges() for graph in graphs_train]
