@@ -91,7 +91,7 @@ def load_graphs_lcg_LENS(data_dir, stats_dir):
                 n_ports = int(stat[2])
                 if graph.number_of_nodes() != n_elements + n_ports:
                     print('Stats not match!')
-                    print(stat[0], filename, graph.number_of_nodes(), graph.number_of_edges(), n_var, n_clause)
+                    print(stat[0], filename, graph.number_of_nodes(), graph.number_of_edges(), n_elements, n_ports)
                 else:
                     # split nodes partite
                     nodes_par1 = list(range(n_elements))
