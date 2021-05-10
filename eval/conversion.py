@@ -20,13 +20,13 @@ def main():
     except:
         pass
 
-    if action == "sat2lcg":  # default
+    if action == "sat2lcg":  # default TODO
         for filename in os.listdir(source_path):  # G2SAT/dataset/test_formulas/
             assert(filename[-4:] == ".cnf")
             lcg_filename = filename.split(".")[0] + "_lcg_edge_list"
             LCG = sat_to_LCG(source_path + "/" + filename)
             save_graph_list(LCG, "{}/{}".format(store_dir, lcg_filename))
-    elif action == "lcg2sat":
+    elif action == "lcg2sat":  # used for generation
         graphs = load_graphs(source_path)
         benchmark_name = os.path.basename(source_path).split('.')[0]
         for i, graph in enumerate(graphs):
@@ -87,7 +87,7 @@ def file_to_mat(filename):
 def LCG_to_sat(graph, save_name):
     nodes = list(graph.nodes())
     assert(0 in nodes)
-    num_var = min(list(graph.neighbors(0)))
+    num_var = min(list(graph.neighbors(0)))  #TODO ??????? min???
     clauses = []
     for node in nodes:
         if (node >= num_var * 2):
