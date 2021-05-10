@@ -76,7 +76,7 @@ def load_graphs_lcg_LENS(data_dir, stats_dir):
         with open(data_dir + filename, 'rb') as fh:
             graph = nx.read_edgelist(fh, nodetype=int)
             # nodetype is important!
-            # nodetype (int, float, str, Python type, optional) – Convert node data from strings to specified type 
+            # nodetype (int, float, str, Python type, optional) – Convert node data from strings to specified type
         # print(graph.nodes())
         # exit()
         # find partite split
@@ -176,16 +176,25 @@ class Dataset_sat(torch.utils.data.Dataset):
         for i in range(len(self.graph_list)):
             graph = self.graph_list[i].copy()
             n_var = len(self.nodes_par1_list[i]) // 2
-            graph.remove_edges_from([(i, i + n_var) for i in range(n_var)])
+
+            graph.remove_edges_from(
+                [(i, i + n_var) for i in range(n_var)])  #XD: remove the additional edges between +/- literals
+            #XD: This is not necessary for circuits, because our original circuit graphs do not contain those additional edges.
+            #XD: But G.remove_edges_from() does not report an error even if one of the edges does not exist.
+            #XD: So I'd rather keep this line.
+            #XD: Note that this will also affect graph.number_of_edges().
+             
             nodes_par1 = self.nodes_par1_list[i].copy()
-            nodes_par2 = list(range(len(nodes_par1), len(nodes_par1) + graph.number_of_edges()))
+            nodes_par2 = list(range(len(nodes_par1), len(nodes_par1) + graph.number_of_edges()))  #XD: understanding this line is good!
             graph_template = nx.Graph()
             graph_template.add_nodes_from(nodes_par1 + nodes_par2)
             node_par2 = nodes_par2[0]
             for node_par1 in nodes_par1:
-                # add additional message path
-                if node_par1 < len(nodes_par1) // 2:
-                    graph_template.add_edge(node_par1, node_par1 + len(nodes_par1) // 2)
+                """ XD: The following does not apply to our LENS dataset."""
+                # # add additional message path
+                # if node_par1 < len(nodes_par1) // 2:
+                #     graph_template.add_edge(node_par1, node_par1 + len(nodes_par1) // 2)
+                """ XD """
                 deg = graph.degree[node_par1]
                 # print(deg)
                 for i in range(deg):
