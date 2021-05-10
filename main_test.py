@@ -28,7 +28,7 @@ template_name = 'graphs/template_small.dat'
 train_name = 'graphs/train_small.dat'
 
 print('args.recompute_template:', args.recompute_template)
-# args.recompute_template = True  # use this line to recompute for circuit stats. Not sure why had to do this...
+args.recompute_template = True  # use this line to recompute for circuit stats. Not sure why had to do this...
 if args.recompute_template or not os.path.isfile(template_name):
     # graphs_train, nodes_par1s_train, nodes_par2s_train = load_graphs_lcg(
     #     data_dir='dataset/train_set/', stats_dir='dataset/')
@@ -70,11 +70,19 @@ with open('dataset_LENS/' + 'circuit_stats.csv') as csvfile:
 generator_list = []
 for i in range(len(graph_templates)):
     # find clause num
-    for stat in stats:
-        if int(stat[1]) == len(nodes_par1s[i]) // 2:
-            clause_num = int(int(stat[2]) * args.clause_ratio)
+    for stat in stats:  #XD: loop through existing graphs, find the nearest one to the template
+        # if int(stat[1]) == len(nodes_par1s[i]) // 2:  #XD: For SAT problems, n_var * 2  = #nodes_par1
+        #     clause_num = int(int(stat[2]) * args.clause_ratio)
+        #     break
+        """XD: For LENS circuits, use this instead"""
+        if int(stat[1]) == len(nodes_par1s[i]):
+            clause_num = int(int(stat[2])* args.clause_ratio)
             break
-    for j in range(args.gen_graph_num):
+        """XD"""
+    # print('clause number =', clause_num)
+    # assert clause_num is not None
+
+    for j in range(args.gen_graph_num):  #XD: #generated_graphs per graph_template. Defalut is 1. 
         generator_list.append(
             graph_generator(
                 graph_templates[i],
@@ -82,6 +90,7 @@ for i in range(len(graph_templates)):
                 sample_size=args.sample_size,
                 device=device,
                 clause_num=clause_num))
+print('length of generator_list:', len(generator_list))
 
 input_dim = 3  # 3 node types
 model = locals()[args.model](
