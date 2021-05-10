@@ -164,8 +164,8 @@ def test(args, generator_list, model, repeat=0, outdir='graphs/'):
     if not os.path.isdir(outdir):
         os.mkdir(outdir)
     # generate graph batch
-    generator_list = generator_list[:20]  # TODO: gonna make this 20 not hard-coded
-    for i, generator in enumerate(generator_list):  
+    generator_list = generator_list[:21]  # TODO: gonna make this 20 not hard-coded
+    for i, generator in enumerate(generator_list[:20]):  
         time0 = time.time()
         time_model = 0
         generator.reset()
@@ -191,13 +191,13 @@ def test(args, generator_list, model, repeat=0, outdir='graphs/'):
 
             if exit_flag:
                 break
-            # added by liang. Need investigation here. See the TODO above.
-            if generator.data.node_index.shape[1] == 0:
-                break
+            """ XD: Need investigation here. See the TODO above."""
+            # if generator.data.node_index.shape[1] == 0:
+            #     break
             # if generator.graph.number_of_nodes() >= 20:
             #     print('break', generator.graph.number_of_nodes())
             #     break
-
+            """ XD """
         time3 = time.time()
         print('Generate time for 1 graph: total {:.4f}, model {:.4f}'.format(time3 - time0, time_model))
         logging.info('Generate time for 1 graph: total {:.4f}, model {:.4f}'.format(time3 - time0, time_model))
@@ -209,7 +209,7 @@ def test(args, generator_list, model, repeat=0, outdir='graphs/'):
         #     os.mkdir(outdir_single_graph)
         # save_graph_list([generator.graph],  outdir_single_graph + str(i) + '.dat')
 
-    graphs = [generator.graph for generator in generator_list]
+    graphs = [generator.graph for generator in generator_list]  #XD: the last graph is the original graph_template
 
     my_draw_graph_list_separate(graphs, is_single=True)  # todo: add bipartite color for visualization
 
